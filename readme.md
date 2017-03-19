@@ -63,6 +63,8 @@ Spotipy
 Pygame
 * On Windows, install pygame using `pip install pygame`
 
+Py-Require
+* On Windows, install Py-Require using `pip install py-require`
 
 Environment
 ----------

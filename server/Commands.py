@@ -10,7 +10,9 @@ import os
 #import pygame
 from gtts import gTTS
 from Services import *
-from pygame import music
+from pygame import mixer
+from TTS import *
+import datetime
 
 # API Keys
 GOOGLE_API_KEY = "AIzaSyC7AeLbq7r2YTLF91mQ5-sDKk8Hze7GM_o"
@@ -86,14 +88,19 @@ def get_todays_date():
     """
     uses tts to speak today's date
     """
-    return
+    mylist = []
+    today = datetime.date.today()
+    mylist.append(today)
+    print(today.strftime('Today is, %B, %d, %Y'))
+    TTS.say(TTS, today.strftime('Today is, %B, %d, %Y'))
 
 
 def get_time():
     """
     Uses tts to speak the time
     """
-    return
+    print(get_todays_date())
+    TTS.say(TTS, get_todays_date())
 
 
 # this is called from the background listener thread

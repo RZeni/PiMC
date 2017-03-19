@@ -1,0 +1,41 @@
+<div ion-ripple class="card lab-card">
+  <div class="row row-wrap">
+    <div class="col-60">
+      <div class="row row-wrap" style="padding-bottom: 0;">
+        <div class="col-100 dock-label" ng-if="lab.lastName">
+          {{DICTIONARY.LAB.PATIENT}}
+        </div>
+        <div class="col-100 dark-text pt-12-font"  ng-if="lab.lastName">
+          {{lab.firstName || 'N/A'}} {{lab.lastName || ''}}
+        </div>
+		<div class="col-100 dock-label" ng-if="lab.hcn">
+          {{DICTIONARY.LAB.HCN}}
+        </div>
+        <div class="col-100 dark-text pt-12-font"  ng-if="lab.hcn">
+          {{lab.hcn || 'N/A'}}
+        </div>
+		<div class="col-100 dock-label">
+          {{DICTIONARY.LAB.PRACTITIONER}}
+        </div>
+        <div class="col-100 dark-text pt-12-font">
+          {{lab.practitioner || 'N/A'}}
+        </div>
+        <div class="col-100 dock-label">
+          {{DICTIONARY.LAB.ORGANIZATION}}
+        </div>
+
+      </div>
+    </div>
+    <div class="col-40">
+      <div class="col-100 dock-label">
+        {{DICTIONARY.LAB.DATE}}
+      </div>
+      <div class="col-100 dark-text pt-12-font">
+        {{lab.testDate | date:'MMMM d, y'|| 'N/A'}}
+      </div>
+    </div>
+    <div class="col-100 dark-text pt-12-font" style="padding: 0 5px">
+      {{lab.requestingOrganization || 'N/A'}}
+    </div>
+  </div>
+</div>

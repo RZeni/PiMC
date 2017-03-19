@@ -1,0 +1,41 @@
+<div ion-ripple class="card patient-card">
+  <div class="row">
+  <div class="col-80">
+    <div class="row">
+      <span class="col-33 tile-label">
+        {{DICTIONARY.PATIENT.FIRST_NAME}}
+      </span>
+      <span class="col-66 dark-text">
+        {{client.firstName}}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="col-33 tile-label">
+        {{DICTIONARY.PATIENT.LAST_NAME}}
+      </span>
+      <span class="col-66 dark-text">
+        {{client.lastName}}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="col-33 tile-label">
+        {{::DICTIONARY.PATIENT.DOB}}
+      </span>
+      <span class="col-66 dark-text">
+        {{client.dob | date:'longDate'}}
+      </span>
+    </div>
+
+    <div class="row">
+      <span class="col-33 tile-label">
+        {{::DICTIONARY.PATIENT.SEX}}
+      </span>
+      <span class="col-66 dark-text">
+        {{client.sex}}
+      </span>
+    </div>
+  </div>
+</div>
+</div>

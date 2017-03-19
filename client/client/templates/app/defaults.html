@@ -1,0 +1,31 @@
+<ion-content>
+  <div>
+    <ui-select ng-model="prefrences.selectedSREngine"
+               theme="bootstrap"
+               reset-search-input="false"
+               title="Choose an engine"
+               append-to-body="true"
+               search-enabled="false">
+      <ui-select-match placeholder="Select a SR engine...">{{$select.selected}}</ui-select-match>
+      <ui-select-choices repeat="option in options.srEngines">
+        <div>{{option}}</div>
+      </ui-select-choices>
+    </ui-select>
+
+    <ui-select ng-model="prefrences.selectedMusicService"
+               theme="bootstrap"
+               reset-search-input="false"
+               title="Choose a service"
+               append-to-body="true"
+               search-enabled="false">
+      <ui-select-match placeholder="Select a music service...">{{$select.selected}}</ui-select-match>
+      <ui-select-choices repeat="option in options.musicServices">
+        <div>{{option}}</div>
+      </ui-select-choices>
+    </ui-select>
+
+    <div>
+      Keyword:
+    </div>
+  </div>
+</ion-content>

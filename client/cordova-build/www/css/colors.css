@@ -1,0 +1,22 @@
+.main-background{
+  background: #F4EEF6;
+}
+
+.header-background{
+  border-color: #76357c;
+  background-color: #662E6B;
+  background-image: linear-gradient(0deg, #662E6B, #662E6B 50%, transparent 50%);
+}
+
+.white-text{
+  color: #fff;
+}
+.grey-text{
+  color:grey;
+}
+.light-text{
+  color: #bcbcbc;
+}
+.dark-text{
+  color: #676666;
+}

@@ -1,0 +1,35 @@
+<ion-side-menus>
+  <!-- Left menu -->
+  <ion-side-menu side="left">
+    <ion-list>
+      <ion-item >
+        Defaults
+      </ion-item>
+    </ion-list>
+  </ion-side-menu>
+
+  <ion-side-menu-content>
+    <div class="bar bar-header show-on-small">
+      <button menu-toggle="left" class="button icon ion-navicon"></button>
+      <h1 class="title">Header</h1>
+      <button class="button icon ion-more"></button>
+    </div>
+
+    <!-- Main content, usually <ion-nav-view> -->
+    <div class="main-content-container">
+      <ion-nav-view name="" class="main-content-panel">
+      </ion-nav-view>
+    </div>
+  </ion-side-menu-content>
+</ion-side-menus>
+
+
+
+
+
+<div class="toast-container no-print" ng-if="settings.general.showToasts" ng-class="{'show-toast' : toastShowing}">
+  <div class="toast-tile" ng-style="{width: toast.width + 'px'}">
+    <image id="toast-image" ng-src="{{toast.image}}" class="toast-image"></image>
+    <div id="toast-message" class="toast-message" ng-style="{width: toast.textWidth + 'px'}">{{toast.message}}</div>
+  </div>
+</div>

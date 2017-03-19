@@ -1,0 +1,71 @@
+<ion-view view-title="Patient Query" class="main-background">
+  <ion-content scroll="false">
+    <div class="profile-dock header-background white-text">
+      <div class="row">
+        <div class="col-30 profile-dock-icon-container">
+          <i class="ion-android-person profile-dock-icon"></i>
+        </div>
+        <div class="col-70">
+          <div class="row">
+            <div class="col-60 dock-label">
+              {{DICTIONARY.PATIENT.FIRST_NAME}}
+            </div>
+            <div class="col-40 dock-label">
+              {{DICTIONARY.PATIENT.LAST_NAME}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-60 light-text">
+              {{patient.firstName || 'N/A'}}
+            </div>
+            <div class="col-40 light-text">
+              {{patient.lastName || 'N/A'}}
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-60 dock-label">
+              {{DICTIONARY.PATIENT.DOB}}
+            </div>
+            <div class="col-40 dock-label">
+              {{DICTIONARY.PATIENT.SEX}}
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-60 light-text">
+              {{patient.dob | date : 'MMMM d, y' || 'N/A'}}
+            </div>
+            <div class="col-40 light-text">
+              {{patient.sex || 'N/A'}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="query-dock query-background white-text">
+      <div class="item header-background" ion-datetime-picker ng-model="labStart">
+        <span class="query-dock-title white-text">{{DICTIONARY.PATIENT.START}}:</span>
+        <span class="query-dock-date light-text datepicker-text">{{labStart | date: "MMMM d, y H:mm"}}</span>
+        <i class="ion-calendar white-text datepicker-icon"></i>
+      </div>
+      <div class="item header-background" ion-datetime-picker ng-model="labEnd">
+        <span class="query-dock-title white-text">{{DICTIONARY.PATIENT.END}}:</span>
+        <span class="query-dock-date light-text datepicker-text">{{labEnd | date: "MMMM d, y H:mm"}}</span>
+        <i class="ion-calendar white-text datepicker-icon"></i>
+      </div>
+    </div>
+
+
+    <ion-content class="patient-lab-scroller">
+      <lab-tile ng-repeat="lab in patient.labs | dateRange:labStart : labEnd track by $index"
+                ui-sref="labDetails({type:0,patientId:patient.id,labId:$index})"></lab-tile>
+      <div class="text-center" ng-if="patient.labs.length == 0">
+        <p class="no-labs-text dark-text">No Labs to Display</p>
+      </div>
+    </ion-content>
+  </ion-content>
+</ion-view>

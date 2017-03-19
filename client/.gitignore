@@ -1,0 +1,5 @@
+node_modules
+.idea/
+client/cordova build/www
+electron build
+cordova build/www/

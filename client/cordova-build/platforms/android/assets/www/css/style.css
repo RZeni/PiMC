@@ -1,0 +1,212 @@
+/*
+ * General Styles
+ */
+ .scroll{
+   height:100%;
+ }
+.text-align-center{
+  text-align: center;
+}
+.row-wrap{
+  flex-wrap: wrap;
+}
+.col-100 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 100%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+.col-70 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 70%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 70%;
+  -ms-flex: 0 0 70%;
+  flex: 0 0 70%;
+  max-width: 70%;
+}
+.col-30 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 30%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 30%;
+  -ms-flex: 0 0 30%;
+  flex: 0 0 30%;
+  max-width: 30%;
+}
+.col-35 {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 35%;
+  -moz-box-flex: 0;
+  -moz-flex: 0 0 35%;
+  -ms-flex: 0 0 35%;
+  flex: 0 0 35%;
+  max-width: 35%;
+}
+.full-height{
+  min-height: 85%;
+}
+
+.pt-12-font{
+  font-size: 12px;
+}
+.bottom-padding-5{
+  padding-bottom: 5px;
+}
+
+/*
+ * Header Styles
+ */
+
+.header-bar{
+  padding: 0;
+}
+
+.header-logo{
+  height: 44px;
+  position: absolute;
+  z-index: 10;
+  right: 10px;
+}
+
+.header-bar button.back-button {
+    font-weight: 600;
+    font-size: 16px;
+    background: none;
+    color: #dedede;
+    padding: 5px !important;
+}
+#header-logo {
+  height:43px;
+}
+/*
+ * Landing Page Styles
+ */
+
+.landing-main-logo{
+  margin-top: 10%;
+  width: 90%;
+
+  max-width: 400px;
+}
+
+.landing-buttons{
+  width: 80%;
+  margin: 15px;
+  margin-top: 5em;
+}
+
+.landing-footer-logo{
+  width: 100%;
+  left: 0;
+  bottom: 0;
+}
+
+/**
+ * Provider Query Page
+ */
+.profile-dock{
+  width: 100%;
+  padding: 0;
+}
+.profile-dock-icon-container {
+  text-align: center;
+  padding-top: 10px;
+}
+.profile-dock-icon {
+  font-size: 70px;
+}
+
+.practitioner-lab-scroller{
+  top: 208px;
+}
+.dock-label{
+  font-weight: 600;
+}
+
+/*
+ * Patient Query Page
+ */
+.patient-lab-scroller{
+  top: 207px;
+}
+.query-dock-title{
+  font-weight: 600;
+  padding-right: 10px;
+}
+.query-dock-date{
+  font-size: 12px;
+}
+.datepicker-icon{
+  font-size: 20px;
+  position: absolute;
+  right: 6%;
+  top: 17px;
+}
+.datepicker-text{
+  position: absolute;
+  right: 15%;
+  top: 17px;
+}
+.no-labs-icon{
+  font-size: 170px;
+}
+.no-labs-text{
+  font-weight: 600;
+  margin-top: 30px;
+  font-size: 24px;
+  margin-bottom: 25px;
+}
+/*
+ * lab cards Page
+ */
+.lab-card > .row > .col:last-of-type{
+  text-align: right;
+}
+/**
+* patient card
+*/
+.card {
+    margin: 10px !important;
+}
+.patient-card .col-20{
+  display: flex;
+  align-items: center;
+}
+.outer-circle{
+  border-radius: 50%;
+  border: 1px black solid;
+  height: 50px;
+  width: 50px;
+}
+.circle-area{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px black solid;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+}
+.score-number{
+  margin: auto;
+  font-size: 90%;
+}
+.tile-label{
+  font-weight: 600;
+}
+
+/*
+* ionic ripple
+*/
+.ion-ripple {
+  background-color: #00B9E4;
+}
+
+
+.observation-lab-scroller{
+  top:102px
+}

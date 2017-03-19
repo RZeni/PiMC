@@ -10,6 +10,7 @@ import os
 #import pygame
 from gtts import gTTS
 from Services import *
+from pygame import music
 
 # API Keys
 GOOGLE_API_KEY = "AIzaSyC7AeLbq7r2YTLF91mQ5-sDKk8Hze7GM_o"
@@ -83,12 +84,12 @@ def get_todays_weather():
 
 def get_todays_date():
     """
-    usses tts to speak today's date
+    uses tts to speak today's date
     """
     return
 
 
-def get_timee():
+def get_time():
     """
     Uses tts to speak the time
     """
@@ -144,7 +145,7 @@ def processCommand(recognizer, audio):
 
             # searches for the audio to play using the selected service
             if text.startswith("What is the time") or text.startswith("what's the time"):
-                get_timee()
+                get_time()
                 return
 
             # searches for the audio to play using the selected service

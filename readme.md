@@ -25,6 +25,7 @@ Requirements
 * **PocketSphinx** (required only if you need to use the Sphinx recognizer)
 * **Google API Client Library for Python** (required only if you need to use the Google Cloud Speech API)
 * **FLAC encoder** (required only if the system is not x86-based Windows/Linux/OS X) - no install required, included as binaries
+* **Pygame** (required for playback of TTS files. Only imports the mixer module)
 
 * If using CMU Sphinx, you may want to `install additional language packs <https://github.com/Uberi/speech_recognition/blob/master/reference/pocketsphinx.rst#installing-other-languages>`
 
@@ -58,7 +59,12 @@ gTTs
 Spotipy
 * On Windows, install Flask using `pip install spotipy`
 * On Unix Based Systems install flask using `$ pip install spotipy`
-Enviornment
+
+Pygame
+* On Windows, install pygame using `pip install pygame`
+
+
+Environment
 ----------
 Dowload and install Webstorm and pycharm, both are available for free if you use your mohowk accounts
 Open Server folder in pycharm

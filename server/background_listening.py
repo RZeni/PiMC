@@ -20,9 +20,9 @@ def callback(recognizer, audio):
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
             # for testing purposes, we're just using the default API key
-            # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+            # to use another API key, use `r.recognize_google(audio, key="AIzaSyC7AeLbq7r2YTLF91mQ5-sDKk8Hze7GM_o")`
             # instead of `r.recognize_google(audio)`
-            text = recognizer.recognize_google(audio)
+            text = r.recognize_google(audio)
             print("Google Speech Recognition thinks you said " + text)
             # Transcribe speech and save as a google doc, send link to email
             if text == "Transcribe":

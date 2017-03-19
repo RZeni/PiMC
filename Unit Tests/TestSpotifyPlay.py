@@ -1,6 +1,12 @@
 import unittest
+import spotipy
 
-# Here's our "unit".
+# Function
+# Author: Brandon Sheppard
+# Function Name: parse_voice_command
+# Parameters:  1 - the voice command as string
+# Date: March 19, 2017
+# Returns: string "song title" or "song title, author"
 def parse_voice_command(voice_command):
     command_split = voice_command.split(" ")
     song_title = ""
@@ -20,8 +26,21 @@ def parse_voice_command(voice_command):
     else:
         return (song_title.strip() + "," + artist.strip())
 
-
-# Here's our "unit tests".
+# Function
+# Author: Brandon Sheppard
+# Function Name: get_preview_url
+# Parameters:  2 - song title, artist name
+# Date: March 19, 2017
+# Returns: string url for spotify 30 second preview
+def get_preview_url(song_title, artist_name):
+    spotify = spotipy.Spotify()
+    results = spotify.search(q=song_title, limit=1)
+    trackTemp = results['tracks']['items']
+    preview_url = trackTemp[0]['preview_url']
+    return preview_url
+    #track_name = trackTemp[0]['name']
+    #for i, t in enumerate(results['tracks']['items']):
+        #print (' ', i, t['name'],'preview url: ', t['preview_url'])
 
 class TestSpotifyPlay(unittest.TestCase):
     def testDetectSongAndArtist(self):
@@ -32,6 +51,10 @@ class TestSpotifyPlay(unittest.TestCase):
         voice_command = "play dab of ranch"
         self.assertEqual("dab of ranch", parse_voice_command(voice_command))
 
+    def testGetPreviewUrl(self):
+        get_preview_url("dab of ranch", "migos")
+
+
 
 def main():
     unittest.main(verbosity=2)
@@ -40,13 +63,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-
-#Work in progress - gets the preview_url in order to play 30 second demo
-#def play_spotify(song, artistName):
-#    spotify = spotipy.Spotify()
-#    results = spotify.search(q=song, limit=10)
-#    for i, t in enumerate(results['tracks']['items']):
-#        print (' ', i, t['name'],'preview url: ', t['preview_url'])
-
-    #print(results)
 

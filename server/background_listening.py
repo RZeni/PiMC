@@ -1,32 +1,43 @@
 #!/usr/bin/env python3
 
-# NOTE: this example requires PyAudio because it uses the Microphone class
+#speech_recogonition is part of PyAudio, allows us to access Microphone class
+#pygame allows us to play .mp3 files. We do not use wave files because gTTS saves as .mp3; We would need to use another library to convert mp3 to wave.
+#gtts allows us to save text to speech files as mp3
+#gmusicapi allows us to use Google Play Music API
+#spotipy allows us to use spotify web api
 
 import speech_recognition as sr
+import time
+import pygame
+import random
+import os
+from gtts import gTTS
+import spotipy
+
 
 # this is called from the background thread
 def callback(recognizer, audio):
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
-        # for testing purposes, we're just using the default API key
-        # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
-        # instead of `r.recognize_google(audio)`
-        text = recognizer.recognize_google(audio)
-        print("Google Speech Recognition thinks you said " + text)
-        # Transcribe speech and save as a google doc, send link to email
-        if text == "Transcribe":
-            print("transcribing...")
+            # for testing purposes, we're just using the default API key
+            # to use another API key, use `r.recognize_google(audio, key="GOOGLE_SPEECH_RECOGNITION_API_KEY")`
+            # instead of `r.recognize_google(audio)`
+            text = recognizer.recognize_google(audio)
+            print("Google Speech Recognition thinks you said " + text)
+            # Transcribe speech and save as a google doc, send link to email
+            if text == "Transcribe":
+                print("transcribing...")
 
-        # searches for the audio to play using the selected service
-        if text.startswith("Play"):
-            print("Play")
+            # searches for the audio to play using the selected service
+            if text.startswith("play"):
+                print("play")
 
-        # searches for the audio to play using the selected service
-        if text.startswith("Super hot fire"):
-            print("Super hot fire")
+            # searches for the audio to play using the selected service
+            if text.startswith("Super hot fire"):
+                print("Super hot fire")
 
-        if text.startswith("shutdown"):
-            stop_listening() # calling this function requests that the background listener stop listening
+            if text.startswith("shutdown"):
+                stop_listening() # calling this function requests that the background listener stop listening
 
     except sr.UnknownValueError:
         print("Google Speech Recognition could not understand audio")
@@ -43,7 +54,6 @@ stop_listening = r.listen_in_background(m, callback)
 # `stop_listening` is now a function that, when called, stops background listening
 
 # do some other computation for 5 seconds, then stop listening and keep doing other computations
-import time
 for _ in range(50): time.sleep(0.1) # we're still listening even though the main thread is doing other things
 #stop_listening() # calling this function requests that the background listener stop listening
 while True: time.sleep(0.1)

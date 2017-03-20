@@ -44,6 +44,10 @@ class MusicService:
         spotify = spotipy.Spotify()
         results = spotify.search(q=query, limit=1)
         trackTemp = results['tracks']
+        preview_url = trackTemp["items"]
+        if len(preview_url) == 0:
+            return None
+
         preview_url = trackTemp["items"][0]['preview_url']
         return preview_url
 

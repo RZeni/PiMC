@@ -3,6 +3,7 @@ import spotipy
 from pygame import mixer
 from urllib.request import urlretrieve
 
+mixer.init()
 
 class MusicService:
     def __init__(self):
@@ -62,10 +63,59 @@ class MusicService:
         url = self.get_preview_url(self, self.parse_voice_command(self, voice_command))
         urlretrieve(url, "temp.mp3")
 
-        mixer.init()
         mixer.music.load("temp.mp3")
         mixer.music.play()
-        while mixer.music.get_busy() == True:
-            continue
-        print("Done playing ")
-        mixer.quit()
+        # while mixer.music.get_busy() == True:
+        #     continue
+        # print("Done playing ")
+        # mixer.quit()
+
+
+    def pause_song(self):
+        """
+
+        :Author: Robert Zeni
+        :param query:
+        :return:
+        """
+        mixer.music.pause()
+
+
+    def stop_song(self):
+        """
+
+        :Author: Robert Zeni
+        :param query:
+        :return:
+        """
+        mixer.music.stop()
+
+
+    def resume_song(self):
+        """
+
+        :Author: Robert Zeni
+        :param query:
+        :return:
+        """
+        mixer.music.play()
+
+
+    def rewind_song(self):
+        """
+
+        :Author: Robert Zeni
+        :param query:
+        :return:
+        """
+        mixer.music.rewind()
+
+
+    def fastforward_song(self):
+        """
+
+        :Author: Robert Zeni
+        :param query:
+        :return:
+        """
+        mixer.music.rewind()

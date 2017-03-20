@@ -2,15 +2,10 @@
 # Purpose: The voice commands module
 # Date: March 19, 2017
 import speech_recognition as sr
-import spotipy
 import pywapi
 import string
-import random
-import os
-#import pygame
-from gtts import gTTS
+from MusicService import MusicService
 from Services import *
-from pygame import mixer
 from TTS import *
 import datetime
 
@@ -36,14 +31,14 @@ def transcribe():
     # save as google doc
 
 
-def playMusic(command):
+def play_music(command):
     """
     Plays the specified song if possible using the selected music service
     :param command: the command string that initiated the function
     """
     # command parsing
     if music_service == MusicServices.Spotify.value:
-        print("Use spotify")
+        MusicService.play_song(MusicService, command)
         return
 
     if music_service == MusicServices.Google_Play.value:
@@ -60,6 +55,10 @@ def playMusic(command):
 def get_todays_weather():
     """
     Says today's weather forecast with the selected weather service
+    :author Robert Zeni:
+    :name get_todays_weather:
+    :date March 19, 2017
+    :return: void
     """
     if weather_service == WeatherServices.OpenWeatherMap:
         return
@@ -137,7 +136,7 @@ def processCommand(recognizer, audio):
 
             # searches for the audio to play using the selected service
             if text.startswith("play"):
-                playMusic(text)
+                play_music(text)
                 return
 
             # searches for the audio to play using the selected service

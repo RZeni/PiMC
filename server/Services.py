@@ -16,8 +16,9 @@ class SRServices(Enum):
 
 class MusicServices(Enum):
     Spotify = 0
-    Google_Play = 1
+    GooglePlay = 1
     SoundCloud = 2
+    AmazonPrimeMusic = 3
 
 
 class WeatherServices(Enum):

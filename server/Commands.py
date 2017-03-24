@@ -8,16 +8,29 @@ from MusicService import MusicService
 from Services import *
 from TTS import *
 import datetime
+import configparser
 
 # API Keys
 GOOGLE_API_KEY = "AIzaSyC7AeLbq7r2YTLF91mQ5-sDKk8Hze7GM_o"
 OPEN_WEATHER_API_KEY = 'dd63aff110fe859652a1eb5e2d555e82'
 
+config = configparser.ConfigParser()
+config_file_name = 'settings.ini'
+config.read(config_file_name)
+
+config.sections()
 # default service settings
-sr_service = 1
-music_service = 0
-weather_service = 3
-stop_listening = ""
+if config and config['Settings']:
+    keyword = config['Settings']['keyword']
+    sr_service = int(config['Settings']['sr_service'])
+    music_service = int(config['Settings']['music_service'])
+    weather_service = int(config['Settings']['weather_service'])
+else:
+    keyword = ""
+    sr_service = 1
+    music_service = 0
+    weather_service = 3
+    stop_listening = ""
 
 
 def transcribe():
@@ -38,6 +51,15 @@ def play_music(command):
     """
     # command parsing
     if music_service == MusicServices.Spotify.value:
+        # if session active
+            # play song
+
+        # if credentials exists and login passes
+        # if config['Spotify'] AND config['Spotify']['username'] != "" AND config['Spotify']['password'] != "" AND musicService.loginSpotify(config['Spotify']['username'], config['Spotify']['password']):
+            # play song
+        # else
+            # tts "Failed to log in, I will attempt to play a preview instead
+
         MusicService.play_song(MusicService, command)
         return
 

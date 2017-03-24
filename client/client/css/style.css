@@ -9,10 +9,28 @@
   top: 50px;
 }
 
-
+/**
+ * UI-select
+ */
+.ui-select-container {
+  background: #d2d5d8;
+  padding: 10px 15px;
+  margin: 10px;
+}
+.ui-select-container.open{
+  margin: 0 !important;
+}
+.caret{
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid black;
+}
+.ui-select-bootstrap .ui-select-toggle > .caret{
+  top: 40% !important;
+}
 /*
-* ionic ripple
-*/
+ * ionic ripple
+ */
 .ion-ripple {
   background-color: #00B9E4;
 }
@@ -78,6 +96,12 @@
 }
 .bottom-padding-5{
   padding-bottom: 5px;
+}
+.margin-10{
+  margin: 10px;
+}
+.margin-0{
+  margin: 0 !important;
 }
 .main-content-container{
   margin-left: 50px;
@@ -224,6 +248,19 @@
   right: 0;
   position: absolute;
   height: 100%;
+}
+
+.service-label{
+  font-size: 16px;
+  font-weight: 600;
+  padding-left: 10px;
+}
+
+.general-input{
+  padding: 10px 15px;
+  background: #d2d5d8;
+  border: none;
+  width: 100%;
 }
 
 /**

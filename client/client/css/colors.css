@@ -1,11 +1,10 @@
 .main-background{
-  background: #F4EEF6;
+  background: #f5fbff;
 }
 
 .header-background{
-  border-color: #76357c;
-  background-color: #662E6B;
-  background-image: linear-gradient(0deg, #662E6B, #662E6B 50%, transparent 50%);
+  border-color: #4296b7;
+  background-color: #4296b7;
 }
 
 .primary-background{

@@ -8,28 +8,32 @@
      */
     .controller('defaultsController', defaultsController);
 
-    defaultsController.$inject = ['$scope','$stateParams'];
+    defaultsController.$inject = ['$scope','$stateParams', 'dataService', '$timeout'];
 
-    function defaultsController($scope, $stateParams) {
-      $scope.options = {
-        srEngines : [
-          "Sphynx Offline Recognition",
-          "Google Speech Recognition",
-          "Google Cloud Services",
-          "Microsoft Bing Speech Recognition"
-        ],
-        musicServices : [
-          "Amazon Prime Music",
-          "Google Play Music",
-          "SoundCloud",
-          "Spotify"
-        ]
-      };
+    function defaultsController($scope, $stateParams, dataService, $timeout) {
+      $scope.options = dataService.getOptions();
 
-      $scope.prefrences = {
-        selectedSREngine : "Google Speech Recognition",
-        selectedMusicService : null
-      };
+      $scope.$watchCollection(function () {
+        return $scope.preferences;
+      }, function(){
+        console.log($scope.preferences);
+        if($scope.preferences && $scope.preferences.keyword) {
+          dataService.setPreferences(angular.copy($scope.preferences));
+        }
+      });
+
+      dataService.getPreferences().then(function (data) {
+        $scope.preferences = {};
+        $scope.preferences.keyword = data.keyword;
+        $scope.preferences.srService = $scope.options.srEngines[data.srService];
+        $scope.preferences.musicService = $scope.options.musicServices[data.musicService];
+        $scope.preferences.weatherService = $scope.options.weatherServices[data.weatherService];
+        console.log($scope.preferences);
+
+      });
+
+
+
       $scope.ddSelectSelected = {}; // Must be an object
     }
 })();

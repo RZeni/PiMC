@@ -11,30 +11,92 @@
   dataService.$inject = ['$http', '$q', 'BASE'];
 
   function dataService($http, $q, BASE) {
-
-    return {
-      getPreferences: getPreferences
+    var options = {
+      srEngines : [
+        "Sphynx Offline Recognition",
+        "Google Speech Recognition",
+        "Google Cloud Services",
+        "Microsoft Bing Speech Recognition"
+      ],
+      musicServices : [
+        "Spotify",
+        "Google Play Music",
+        "SoundCloud",
+        "Amazon Prime Music"
+      ],
+      weatherServices : [
+        "Open Weather Map",
+        "Yahoo",
+        "Weather.com",
+        "NOAA"
+      ]
     };
 
-    function getPreferences(token){
+    return {
+      getPreferences: getPreferences,
+      setPreferences: setPreferences,
+      getOptions: getOptions
+    };
+
+    function getPreferences(){
       return $http({
         method: 'GET',
         url: BASE.URL+":"+BASE.PORT+'/getPreferences',
-        params: {
-          token: token
-        }
       })
-      .then(authenticationSuccessful)
-      .catch(authenticationFailed);
+      .then(getPreferencesSuccessful)
+      .catch(getPreferencesFailed);
 
-      function authenticationSuccessful(response) {
+      function getPreferencesSuccessful(response) {
         return $q.resolve(response.data);
       }
 
-      function authenticationFailed(error) {
-        console.log('XHR Failed for getPatients.' + error.data);
+      function getPreferencesFailed(error) {
+        console.error('XHR Failed for get. ' + JSON.stringify(error));
+        return $q.reject({
+          selectedSREngine : "Google Speech Recognition",
+          selectedMusicService : "Spotify",
+          selectedWeatherService : "NOAA",
+          keyword : ""
+        });
+      }
+    }
+
+    function setPreferences(preferences){
+      var temp = options.srEngines.indexOf(preferences.srService);
+      if(temp != -1)
+        preferences.srService = temp;
+
+      temp = options.musicServices.indexOf(preferences.musicService);
+      if(temp != -1)
+        preferences.musicService = temp;
+
+      temp = options.weatherServices.indexOf(preferences.weatherService);
+      if(temp != -1)
+        preferences.weatherService = temp;
+
+      console.log(preferences);
+      return $http({
+        method: 'POST',
+        url: BASE.URL+":"+BASE.PORT+'/setPreferences',
+        params: {
+          preferences: preferences
+        }
+      })
+      .then(setPreferencesSuccessful)
+      .catch(setPreferencesFailed);
+
+      function setPreferencesSuccessful(response) {
+        return $q.resolve(response.data);
+      }
+
+      function setPreferencesFailed(error) {
+        console.error('XHR Failed for set Pref.' + error.data);
         return $q.reject(error);
       }
+    }
+
+    function getOptions() {
+      return options;
     }
   }
 })();

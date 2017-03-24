@@ -19,6 +19,7 @@ Requirements
 * **Python** 3.3+ (required) `https://www.python.org/`
 * **PyAudio** 0.2.9+ (required for microphone input/audio playback) `http://people.csail.mit.edu/hubert/pyaudio/docs/`
 * **Flask**`0.12+ (required for rest api) http://flask.pocoo.org/docs/0.12/deploying/cgi/#server-setup`
+* **Flask-CORS** (required for cross origin requests)
 * **PYWAPI** (required for weather searching)`https://code.google.com/archive/p/python-weather-api/`
 * **gTTS** (required for text to speech) `https://github.com/pndurette/gTTS`
 * **Spotipy** (required for spotify music playback) `https://github.com/plamere/spotipy`
@@ -45,6 +46,10 @@ PyAudio
 Flask
 * On Windows, install Flask using `pip install flask`
 * On Unix Based Systems install flask using `$ pip install flask`
+
+Flask CORS
+* On Windows, install Flask using `pip install -U flask-cors`
+* On Unix Based Systems install flask using `$ pip install -U flask-cors`
 
 PYWAPI
 Download the latest pywapi library from: https://launchpad.net/python-weather-api/trunk/0.3.8/+download/pywapi-0.3.8.tar.gz

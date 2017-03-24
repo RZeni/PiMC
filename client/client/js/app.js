@@ -54,7 +54,7 @@
     })
     .constant("BASE", {
       "URL": "http://127.0.0.1",
-      "PORT": "8080"
+      "PORT": "5000"
     })
     .constant("API_KEY", 'AIzaSyB8nFUM0XpNSvvNj3krCkSoi1m80bbN7kA');
 })();

@@ -62,13 +62,8 @@ class MusicService:
         """
         url = self.get_preview_url(self, self.parse_voice_command(self, voice_command))
         urlretrieve(url, "temp.mp3")
-
         mixer.music.load("temp.mp3")
         mixer.music.play()
-        # while mixer.music.get_busy() == True:
-        #     continue
-        # print("Done playing ")
-        # mixer.quit()
 
 
     def pause_song(self):

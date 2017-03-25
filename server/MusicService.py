@@ -2,8 +2,8 @@ import pyaudio
 import spotipy
 from pygame import mixer
 from urllib.request import urlretrieve
+from Services import MusicServices
 
-mixer.init()
 
 class MusicService:
     def __init__(self):
@@ -53,17 +53,50 @@ class MusicService:
         return preview_url
 
 
-    def play_song(self, voice_command):
+    def play_song(self, voice_command, music_service):
         """
 
         :Author: Robert Zeni
         :param query:
         :return:
         """
-        url = self.get_preview_url(self, self.parse_voice_command(self, voice_command))
-        urlretrieve(url, "temp.mp3")
-        mixer.music.load("temp.mp3")
-        mixer.music.play()
+        if music_service == MusicServices.Spotify.value:
+            # if session active
+            # play song
+
+            # if credentials exists and login passes
+            # if config['Spotify'] AND config['Spotify']['username'] != "" AND config['Spotify']['password'] != "" AND musicService.loginSpotify(config['Spotify']['username'], config['Spotify']['password']):
+            # play song
+            # else
+            # tts "Failed to log in, I will attempt to play a preview instead
+            if(voice_command.strip() == "play"):
+                return
+
+            url = self.get_preview_url(self.parse_voice_command(voice_command))
+            if url == None:
+                print("unable to find song")
+                return
+
+            urlretrieve(url, "temp.mp3")
+            mixer.init()
+            mixer.music.load("temp.mp3")
+            mixer.music.play()
+            while mixer.music.get_busy():
+                continue
+            mixer.quit()
+            return
+
+        if music_service == MusicServices.Google_Play.value:
+            print("Use google play")
+            return
+
+        if music_service == MusicServices.SoundCloud.value:
+            print("Use soundcloud")
+            return
+
+        print('Music Service Not Set')
+
+
 
 
     def pause_song(self):

@@ -2,6 +2,7 @@
 # Purpose: Enum classes for preferences
 # Date: March 19, 2017
 import os
+import time
 from gtts import gTTS
 from pygame import mixer
 from tempfile import NamedTemporaryFile
@@ -20,7 +21,7 @@ class TTS:
         self.temp_path = (os.path.abspath(os.curdir) + "\\temp\\")
         self.speech_list = ["hello", "goodbye"]
 
-    def open_temp_speech_file(file):
+    def open_temp_speech_file(self, file):
         """
         :author Brandon Sheppard:
         :name open_temp_speech_file:
@@ -33,8 +34,9 @@ class TTS:
         mixer.music.play()
         while mixer.music.get_busy():
             continue
-        print("Done playing")
+        mixer.music.stop()
         mixer.quit()
+        print("Done playing")
 
     def open_speech_file(self, file_name):
         """
@@ -50,8 +52,8 @@ class TTS:
         mixer.music.play()
         while mixer.music.get_busy() == True:
             continue
-        print("Done playing " + path_to_file)
         mixer.quit()
+        print("Done playing " + path_to_file)
 
     def create_speech_files(self):
         """
@@ -64,7 +66,7 @@ class TTS:
         for i in range(0, list_length):
             text_to_save = self.speech_list[i]
             if not os.path.exists(self.resource_path + text_to_save + ".mp3"):
-                self.save_speech_file(self, text_to_save)
+                self.save_speech_file(text_to_save)
 
     def save_speech_file(self, text_to_say):
         """
@@ -101,6 +103,10 @@ class TTS:
         :date March 19, 2017
         :return: void
         """
-        temp_file = self.create_temp_file(self, text)
-        self.open_temp_speech_file(temp_file.name)
-        os.remove(temp_file.name)
+        try:
+            temp_file = self.create_temp_file(self, text)
+            self.open_temp_speech_file(self, temp_file.name)
+            temp_file.close()
+            os.remove(temp_file.name)
+        except OSError as e:
+            print("Access-error on temp file, failed to delete, in use")

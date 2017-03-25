@@ -5,11 +5,12 @@
 from flask import Flask
 from flask import request
 from flask_cors import CORS, cross_origin
-from Commands import *
+from Globals import  *
 import json
-
+from threading import Thread
 app = Flask(__name__)
 CORS(app)
+
 
 @app.route("/getPreferences")
 @cross_origin()
@@ -25,13 +26,13 @@ def get_preferences():
              "\"srService\" : %d, " \
              "\"musicService\" : %d, " \
              "\"weatherService\" : %d " \
-           "}" % (sr_service, music_service, weather_service))
+           "}" % (configuration.sr_service, configuration.music_service, configuration.weather_service))
     return "{" \
-             "\"keyword\" : \"\", " \
+             "\"keyword\" : \"hfg\", " \
              "\"srService\" : %d, " \
              "\"musicService\" : %d, " \
              "\"weatherService\" : %d " \
-           "}" % (sr_service, music_service, weather_service)
+           "}" % (configuration.sr_service, configuration.music_service, configuration.weather_service)
 
 
 @app.route("/setPreferences", methods=['POST'])
@@ -43,35 +44,46 @@ def set_preferences():
     Date: March 23, 2017
     :return:
     """
-    preferences = json.loads(request.args.get('preferences'))
-    print(preferences)
-    cfgfile = open(config_file_name, 'w')
+    returnString = "{"
+    requestPreferences = json.loads(request.args.get('preferences'))
+    print(requestPreferences)
 
-    if preferences.get('keyword') != None:
-        keyword = preferences.get('keyword')
-        config.set('Settings', 'keyword', preferences.get('keyword'))
+    cfgfile = open(configuration.config_file_name, 'w')
 
-    if preferences.get('srService') != None:
-        sr_service = preferences.get('srService')
-        config.set('Settings', 'sr_service', str(preferences.get('srService')))
+    if requestPreferences.get('keyword') != None:
+        keyword = requestPreferences.get('keyword')
+        configuration.parser.set('Settings', 'keyword', requestPreferences.get('keyword'))
 
-    if preferences.get('musicService') != None:
-        music_service = preferences.get('musicService')
-        config.set('Settings', 'music_service', str(preferences.get('musicService')))
+    if requestPreferences.get('srService') != None:
+        sr_service = requestPreferences.get('srService')
+        configuration.parser.set('Settings', 'sr_service', str(requestPreferences.get('srService')))
+        returnString += "\"srService\" : \"%s\"",str(requestPreferences.get('srService'))
 
-    if preferences.get('weatherService') != None:
-        weather_service = preferences.get('weatherService')
-        config.set('Settings', 'weather_service', str(preferences.get('weatherService')))
+    if requestPreferences.get('musicService') != None:
+        music_service = requestPreferences.get('musicService')
+        configuration.parser.set('Settings', 'music_service', str(requestPreferences.get('musicService')))
+        returnString += "\"musicService\" : \"%s\"",str(requestPreferences.get('musicService'))
 
-    config.write(cfgfile)
+    if requestPreferences.get('weatherService') != None:
+        weather_service = requestPreferences.get('weatherService')
+        configuration.parser.set('Settings', 'weather_service', str(requestPreferences.get('weatherService')))
+        returnString += "\"weatherService\" : \"%s\"",str(requestPreferences.get('weatherService'))
+
+    returnString += "}"
+    configuration.config.write(cfgfile)
     cfgfile.close()
 
-    # attampt login
-    # return result
-    return "j"
+    return returnString
+
 
 
 @app.route("/login", methods=['POST'])
 @cross_origin()
 def login():
+    """
+    sets the service preferences with the provided data
+    Author: Robert Zeni
+    Date: March 23, 2017
+    :return:
+    """
     return "j"

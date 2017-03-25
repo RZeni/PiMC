@@ -3,7 +3,7 @@ import spotipy
 from pygame import mixer
 from urllib.request import urlretrieve
 from Services import MusicServices
-
+import time
 
 class MusicService:
     def __init__(self):
@@ -77,13 +77,14 @@ class MusicService:
                 print("unable to find song")
                 return
 
-            urlretrieve(url, "temp.mp3")
-            mixer.init()
-            mixer.music.load("temp.mp3")
-            mixer.music.play()
-            while mixer.music.get_busy():
-                continue
-            mixer.quit()
+            try:
+                mixer.quit()
+                urlretrieve(url, "temp.mp3")
+                mixer.init()
+                mixer.music.load("temp.mp3")
+                mixer.music.play()
+            except Exception as e:
+                return "Failed to retrieve url, or lacks access to temp file{0}",e
             return
 
         if music_service == MusicServices.Google_Play.value:

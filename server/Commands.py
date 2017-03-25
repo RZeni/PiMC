@@ -12,12 +12,18 @@ stop_listening = None
 
 
 def listen():
-    r.dynamic_energy_threshold = True
-    with m as source:
-        r.adjust_for_ambient_noise(source)  # we only need to calibrate once before we start listening, then dynamic takes over
     print("Listening ...")
+    r.dynamic_energy_threshold = True
+    #r.operation_timeout = 5
+    try:
+        with m as source:
+            r.adjust_for_ambient_noise(source)  # we only need to calibrate once before we start listening, then dynamic takes over
+            audio = r.listen(source, 5)
+        processCommand(r, audio)
+    except sr.WaitTimeoutError as e:
+        print("No Command Given")
     # start listening in the background (note that we don't have to do this inside a `with` statement)
-    stop_listening = r.listen_in_background(m, processCommand)
+    #stop_listening = r.listen_in_background(m, processCommand)
 
 
 def processCommand(recognizer, audio):
@@ -54,49 +60,42 @@ def processCommand(recognizer, audio):
         if voice_command == "Transcribe":
             print("attempting transcribe...")
             #transcribe()
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("play"):
             print("attempting play...")
             musicService.play_song(voice_command, configuration.music_service)
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("stop this"):
             print("attempting to stop song...")
             musicService.stop_song()
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("pause this"):
             print("attempting to pause song...")
             musicService.pause_song()
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("resume this"):
             print("attempting to resume song...")
             musicService.resume_song()
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("rewind this"):
             print("attempting to rewind song...")
             musicService.rewind_song()
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("fast forward this"):
             print("attempting to fast forward song...")
             musicService.fastforward_song()
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
@@ -105,27 +104,23 @@ def processCommand(recognizer, audio):
             or voice_command.startswith("how's today's weather") or voice_command.startswith("how is today's weather"):
             print("retrieving today's weather...")
             TTS.say(TTS, weatherService.get_todays_weather(configuration.weather_service) )
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("What is today's date") or voice_command.startswith("what's today's date"):
             print("retrieving today's date...")
             TTS.say(TTS, localeService.get_todays_date())
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("What is the time") or voice_command.startswith("what's the time"):
             print("retrieving the time...")
             TTS.say(TTS, localeService.get_time())
-            print("Listening...")
             return
 
         # searches for the audio to play using the selected service
         if voice_command.startswith("Super hot fire"):
             print("Super hot fire")
-            print("Listening...")
             return
 
         # Shutdown the server
@@ -134,13 +129,11 @@ def processCommand(recognizer, audio):
             #stop_listening() # calling this function requests that the background listener stop listening
             shutdown = 1
 
-        print("Listening...")
+    except TimeoutError:
+        print("Took too long to process audio")
     except NameError:
         print("A variable was not created, likely missing a default SR Service")
-        print("Listening...")
     except sr.UnknownValueError:
         print("Could not understand audio")
-        print("Listening...")
     except sr.RequestError as e:
         print("Could not request results from selected service; {0}".format(e))
-        print("Listening...")

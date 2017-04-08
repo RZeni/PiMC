@@ -18,7 +18,7 @@ def listen():
     try:
         with m as source:
             r.adjust_for_ambient_noise(source)  # we only need to calibrate once before we start listening, then dynamic takes over
-            audio = r.listen(source, 5)
+            audio = r.listen(source, 4)
         processCommand(r, audio)
     except sr.WaitTimeoutError as e:
         print("No Command Given")
@@ -42,13 +42,13 @@ def processCommand(recognizer, audio):
         if configuration.sr_service == SRServices.Shpynx.value:
             voice_command = recognizer.recognize_sphinx(audio)
 
-        if configuration.sr_service == SRServices.Google.value:
+        elif configuration.sr_service == SRServices.Google.value:
             voice_command = recognizer.recognize_google(audio)
 
-        if configuration.sr_service == SRServices.Cloud.value:
+        elif configuration.sr_service == SRServices.Cloud.value:
             voice_command = recognizer.recognize_google_cloud(audio)
 
-        if configuration.sr_service == SRServices.Bing.value:
+        elif configuration.sr_service == SRServices.Bing.value:
             voice_command = recognizer.recognize_bing(audio)
 
         print("Google Speech Recognition thinks you said " + voice_command)
@@ -63,43 +63,49 @@ def processCommand(recognizer, audio):
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("play"):
+        elif voice_command.startswith("play"):
             print("attempting play...")
             musicService.play_song(voice_command, configuration.music_service)
             return
 
+        # # searches for the audio to play using the selected service
+        # elif voice_command.startswith("preview"):
+        #     print("attempting play...")
+        #     musicService.play_song(voice_command, configuration.music_service)
+        #     return
+
         # searches for the audio to play using the selected service
-        if voice_command.startswith("stop this"):
+        elif voice_command.startswith("stop this"):
             print("attempting to stop song...")
             musicService.stop_song()
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("pause this"):
+        elif voice_command.startswith("pause this"):
             print("attempting to pause song...")
             musicService.pause_song()
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("resume this"):
+        elif voice_command.startswith("resume this"):
             print("attempting to resume song...")
             musicService.resume_song()
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("rewind this"):
+        elif voice_command.startswith("rewind this"):
             print("attempting to rewind song...")
             musicService.rewind_song()
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("fast forward this"):
+        elif voice_command.startswith("fast forward this"):
             print("attempting to fast forward song...")
             musicService.fastforward_song()
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("what is today's weather") or voice_command.startswith("what's today's weather") \
+        elif voice_command.startswith("what is today's weather") or voice_command.startswith("what's today's weather") \
             or voice_command.startswith("how's the weather today") or voice_command.startswith("how is the weather today") \
             or voice_command.startswith("how's today's weather") or voice_command.startswith("how is today's weather"):
             print("retrieving today's weather...")
@@ -107,24 +113,24 @@ def processCommand(recognizer, audio):
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("What is today's date") or voice_command.startswith("what's today's date"):
+        elif voice_command.startswith("What is today's date") or voice_command.startswith("what's today's date"):
             print("retrieving today's date...")
             TTS.say(TTS, localeService.get_todays_date())
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("What is the time") or voice_command.startswith("what's the time"):
+        elif voice_command.startswith("What is the time") or voice_command.startswith("what's the time"):
             print("retrieving the time...")
             TTS.say(TTS, localeService.get_time())
             return
 
         # searches for the audio to play using the selected service
-        if voice_command.startswith("Super hot fire"):
+        elif voice_command.startswith("Super hot fire"):
             print("Super hot fire")
             return
 
         # Shutdown the server
-        if voice_command.startswith("shut down"):
+        elif voice_command.startswith("shut down"):
             print("shutdown")
             #stop_listening() # calling this function requests that the background listener stop listening
             shutdown = 1

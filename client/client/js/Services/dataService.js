@@ -20,7 +20,7 @@
       ],
       musicServices : [
         "Spotify",
-        "Google Play Music",
+        "Last FM",
         "SoundCloud",
         "Amazon Prime Music"
       ],
@@ -29,6 +29,9 @@
         "Yahoo",
         "Weather.com",
         "NOAA"
+      ],
+      radioServices : [
+        "Last FM"
       ]
     };
 

@@ -24,9 +24,10 @@ Requirements
 * **gTTS** (required for text to speech) `https://github.com/pndurette/gTTS`
 * **Spotipy** (required for spotify music playback) `https://github.com/plamere/spotipy`
 * **PocketSphinx** (required only if you need to use the Sphinx recognizer)
-* **Google API Client Library for Python** (required only if you need to use the Google Cloud Speech API)
+* **Google API Client Library for Python** (required only if you need to use the Google Cloud Speech API or youtube streaming)
 * **FLAC encoder** (required only if the system is not x86-based Windows/Linux/OS X) - no install required, included as binaries
 * **Pygame** (required for playback of TTS files. Only imports the mixer module)
+* **Youtube DL** (required for download of youtube files)
 
 * If using CMU Sphinx, you may want to `install additional language packs <https://github.com/Uberi/speech_recognition/blob/master/reference/pocketsphinx.rst#installing-other-languages>`
 
@@ -35,6 +36,10 @@ Installing
 Python
 * download python from `https://www.python.org/`
 * Add Python to your PATH envoirnment variable
+
+Speech Recognition
+* On Windows, install Speech Recognition using `pip install SpeechRecognition'
+* On mac/linux, install Speech Recognition using `$ sudo pip3 install SpeechRecognition'
 
 PyAudio
 * On Windows, install PyAudio using `Pip <https://pip.readthedocs.org/>`__: execute ``pip install pyaudio`` in a terminal.
@@ -45,31 +50,37 @@ PyAudio
 
 Flask
 * On Windows, install Flask using `pip install flask`
-* On Unix Based Systems install flask using `$ pip install flask`
+* On Unix Based Systems install flask using `$ sudo pip3 install flask`
 
 Flask CORS
 * On Windows, install Flask using `pip install -U flask-cors`
-* On Unix Based Systems install flask using `$ pip install -U flask-cors`
+* On Unix Based Systems install flask using `$ sudo pip3 install -U flask-cors`
 
 PYWAPI
 Download the latest pywapi library from: https://launchpad.net/python-weather-api/trunk/0.3.8/+download/pywapi-0.3.8.tar.gz
 Untar the source distribution and run: $ python setup.py build $ python setup.py install
-* On Windows, `python setup.py build`  `python setup.py install`
-* On Unix Based Systems, `$ python setup.py build $ python setup.py install`
+* On Windows, `python setup.py build`  `python3 setup.py install`
+* On Unix Based Systems, `$ python3 setup.py build $ python3 setup.py install`
 
 gTTs
-* On Windows, install Flask using `pip install gTTS`
-* On Unix Based Systems install flask using `$ pip install gTTS`
+* On Windows, install Flask using `pip3 install gTTS`
+* On Unix Based Systems install flask using `$ pip3 install gTTS`
 
 Spotipy
-* On Windows, install Flask using `pip install spotipy`
-* On Unix Based Systems install flask using `$ pip install spotipy`
+* On Windows, install Flask using `pip3 install spotipy`
+* On Unix Based Systems install flask using `$ pip3 install spotipy`
 
 Pygame
-* On Windows, install pygame using `pip install pygame`
+* On Windows, install pygame using `pip3 install pygame`
 
 Py-Require
-* On Windows, install Py-Require using `pip install py-require`
+* On Windows, install Py-Require using `pip3 install py-require`
+
+Googple API
+* On Windows, install using "pip3 install --upgrade google-api-python-client"
+
+Youtube DL
+* On Windows, install using "pip3 install --upgrade youtube-dl"
 
 Environment
 ----------

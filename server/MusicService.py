@@ -3,10 +3,37 @@ import spotipy
 from pygame import mixer
 from urllib.request import urlretrieve
 from Services import MusicServices
+import pylast
 import time
+from Globals import credentials
+from Globals import configuration
+from subprocess import call
+from apiclient.discovery import build
+from apiclient.errors import HttpError
+from oauth2client.tools import argparser
+
+import youtube_dl
 
 class MusicService:
     def __init__(self):
+        network = None
+        if configuration.music_service == MusicServices.Last_FM.value:
+            #music services requires authentication
+            if credentials.LAST_FM_USERNAME != "" and credentials.LAST_FM_PASSWORD != "":
+                #login
+                return
+            else:
+                # raise tts error
+                return
+        if configuration.music_service == MusicService.Youtube.Value:
+            self.youtube_download_opts = {
+                'format': 'bestaudio/best',
+                'postprocessors': [{
+                    'key': 'FFmpegExtractAudio',
+                    'preferredcodec': 'mp3',
+                    'preferredquality': '192',
+                }],
+            }
         return
 
 
@@ -35,13 +62,14 @@ class MusicService:
             return (song_title.strip() + " + " + artist.strip())
 
 
-    def get_preview_url(self, query):
+    def get_preview_url(self, voice_command):
         """
 
         :Author: Brandon Sheppard
         :param query:
         :return:
         """
+        query = self.parse_voice_command(voice_command)
         spotify = spotipy.Spotify()
         results = spotify.search(q=query, limit=1)
         trackTemp = results['tracks']
@@ -51,6 +79,13 @@ class MusicService:
 
         preview_url = trackTemp["items"][0]['preview_url']
         return preview_url
+
+
+    def get_youtube_url(self, voice_command):
+        voice_command = voice_command[5:];
+        query = self.parse_voice_command(voice_command)
+        var results = YouTube.Search.list('id,snippet', {q: query, maxResults: 1});
+        return
 
 
     def play_song(self, voice_command, music_service):
@@ -72,7 +107,7 @@ class MusicService:
             if(voice_command.strip() == "play"):
                 return
 
-            url = self.get_preview_url(self.parse_voice_command(voice_command))
+            url = self.get_preview_url(voice_command)
             if url == None:
                 print("unable to find song")
                 return
@@ -87,17 +122,17 @@ class MusicService:
                 return "Failed to retrieve url, or lacks access to temp file{0}",e
             return
 
-        if music_service == MusicServices.Google_Play.value:
+        if music_service == MusicServices.Last_FM.value:
             print("Use google play")
             return
 
-        if music_service == MusicServices.SoundCloud.value:
-            print("Use soundcloud")
+        if music_service == MusicServices.Youtube.value:
+            with youtube_dl.YoutubeDL(self.youtube_download_opts) as ydl:
+                ydl.download(['http://www.youtube.com/watch?v=BaW_jenozKc'])
+
             return
 
         print('Music Service Not Set')
-
-
 
 
     def pause_song(self):

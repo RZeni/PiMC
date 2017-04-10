@@ -1,5 +1,13 @@
 
 
 class Credentials:
+    GMAIL_ACCOUNT = ""
+    GMAIL_PASSWORD = ""
     GOOGLE_API_KEY = "AIzaSyC7AeLbq7r2YTLF91mQ5-sDKk8Hze7GM_o"
+
     OPEN_WEATHER_API_KEY = 'dd63aff110fe859652a1eb5e2d555e82'
+
+    LAST_FM_API_KEY = ""
+    LAST_FM_API_SECRET = ""
+    LAST_FM_USERNAME = ""
+    LAST_FM_PASSWORD = ""

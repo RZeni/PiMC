@@ -5,8 +5,7 @@ from urllib.request import urlretrieve
 from Services import MusicServices
 import pylast
 import time
-from Globals import credentials
-from Globals import configuration
+from Credentials import Credentials
 from subprocess import call
 from apiclient.discovery import build
 from apiclient.errors import HttpError
@@ -15,26 +14,20 @@ from oauth2client.tools import argparser
 import youtube_dl
 
 class MusicService:
+    YouTube = None
+    youtube_download_opts = None
     def __init__(self):
-        network = None
-        if configuration.music_service == MusicServices.Last_FM.value:
-            #music services requires authentication
-            if credentials.LAST_FM_USERNAME != "" and credentials.LAST_FM_PASSWORD != "":
-                #login
-                return
-            else:
-                # raise tts error
-                return
-        if configuration.music_service == MusicService.Youtube.Value:
-            self.youtube_download_opts = {
-                'format': 'bestaudio/best',
-                'postprocessors': [{
-                    'key': 'FFmpegExtractAudio',
-                    'preferredcodec': 'mp3',
-                    'preferredquality': '192',
-                }],
-            }
-        return
+        self.network = None
+        self.YouTube = build('youtube', 'v3', developerKey=Credentials.GOOGLE_API_KEY)
+
+        self.youtube_download_opts = {
+            'format': 'bestaudio/best',
+            'postprocessors': [{
+                'key': 'FFmpegExtractAudio',
+                'preferredcodec': 'mp3',
+                'preferredquality': '192',
+            }],
+        }
 
 
     def parse_voice_command(self, voice_command):
@@ -82,11 +75,49 @@ class MusicService:
 
 
     def get_youtube_url(self, voice_command):
-        voice_command = voice_command[5:];
-        query = self.parse_voice_command(voice_command)
-        var results = YouTube.Search.list('id,snippet', {q: query, maxResults: 1});
+        voice_command = voice_command[5:]
+        YouTube = build('youtube', 'v3', developerKey=Credentials.GOOGLE_API_KEY)
+        search_response = YouTube.search().list(
+            q=voice_command,
+            part='id,snippet',
+            maxResults=1
+        ).execute()
+
+        videos = []
+        channels = []
+        playlists = []
+
+        # Add each result to the appropriate list, and then display the lists of
+        # matching videos, channels, and playlists.
+        for search_result in search_response.get("items", []):
+            if search_result["id"]["kind"] == "youtube#video":
+                videos.append("%s (%s)" % (search_result["snippet"]["title"],
+                                           search_result["id"]["videoId"]))
+                return search_result;
+            elif search_result["id"]["kind"] == "youtube#channel":
+                channels.append("%s (%s)" % (search_result["snippet"]["title"],
+                                             search_result["id"]["channelId"]))
+            elif search_result["id"]["kind"] == "youtube#playlist":
+                playlists.append("%s (%s)" % (search_result["snippet"]["title"],
+                                              search_result["id"]["playlistId"]))
+
+        for vid in videos:
+            print(vid)
+        # for vid in channels:
+        #     print(vid)
+        # for vid in playlists:
+        #     print(vid)
         return
 
+    def play_youtube(self, voice_command):
+        song = self.get_youtube_url(voice_command)
+        with youtube_dl.YoutubeDL(self.youtube_download_opts) as ydl:
+            ydl.download(['http://www.youtube.com/watch?v=' + song['id']['videoId']])
+        mixer.quit()
+        mixer.init()
+        mixer.music.load(song['snippet']['title'])
+        mixer.music.play()
+        return
 
     def play_song(self, voice_command, music_service):
         """
@@ -129,7 +160,6 @@ class MusicService:
         if music_service == MusicServices.Youtube.value:
             with youtube_dl.YoutubeDL(self.youtube_download_opts) as ydl:
                 ydl.download(['http://www.youtube.com/watch?v=BaW_jenozKc'])
-
             return
 
         print('Music Service Not Set')

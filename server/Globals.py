@@ -7,6 +7,6 @@ from Services import *
 
 configuration = ConfigService()
 credentials = Credentials()
-musicService = MusicService(configuration.music_service)
+musicService = MusicService()
 weatherService = WeatherService()
 localeService =LocaleService()

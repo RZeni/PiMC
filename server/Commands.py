@@ -1,22 +1,30 @@
 # Author: Robert Zeni
 # Purpose: The voice commands module
 # Date: March 19, 2017
-import speech_recognition as sr
+#import speech_recognition as sr
 from TTS import *
 from Globals import  *
 from _thread import start_new_thread
+import io
+import os
+import time
+import signal
 
-r = sr.Recognizer()
-m = sr.Microphone()
-stop_listening = None
+from google.cloud import speech
+speech_client =       speech.Client()
 
+#import pyaudio
 
+#m = sr.Microphone()
+#stop_listening = None
+
+'''
 def listen():
     print("Listening ...")
     r.dynamic_energy_threshold = True
-    #r.operation_timeout = 5
+    #r.operation_timeout = 
     try:
-        with m as source:
+        with sr.Microphone(device_index=device_id) as source:
             r.adjust_for_ambient_noise(source)  # we only need to calibrate once before we start listening, then dynamic takes over
             audio = r.listen(source, 4)
         processCommand(r, audio)
@@ -24,9 +32,15 @@ def listen():
         print("No Command Given")
     # start listening in the background (note that we don't have to do this inside a `with` statement)
     #stop_listening = r.listen_in_background(m, processCommand)
+'''
+
+def record_voice_command(self):
+    cmd = "arecord --device=plughw:0,0 --format S16_LE --rate 44100 recording_audio.wav"
+    recording_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
 
 
-def processCommand(recognizer, audio):
+#def processCommand(recognizer, audio):
+def processCommand():
     print("processing...")
     """
     The function to execute upon speech detection. Determines what was said and runs the appropriate function
@@ -35,10 +49,22 @@ def processCommand(recognizer, audio):
     """
     # received audio data, now we'll recognize it using Google Speech Recognition
     try:
-        # for testing purposes, we're just using the default API key
-        # to use another API key, use `r.recognize_google(audio, key="AIzaSyC7AeLbq7r2YTLF91mQ5-sDKk8Hze7GM_o")`
-        # instead of `r.recognize_google(audio)`
         voice_command = ""
+        # The name of the audio file to transcribe
+        file_name = os.path.join(os.path.dirname(__file__), 'resources', 'recording_audio.wav')
+
+        # Loads the audio into memory
+        with io.open(file_name, 'rb') as audio_file:
+            content = audio_file.read()
+            sample = speech_client.sample(content, source_uri=None, encoding='LINEAR16')
+
+        # Detects speech in the audio file
+        alternatives = sample.recognize('en-US')
+
+        'resources',
+        'googletest.wav')
+
+        '''
         if configuration.sr_service == SRServices.Shpynx.value:
             voice_command = recognizer.recognize_sphinx(audio)
 
@@ -52,6 +78,7 @@ def processCommand(recognizer, audio):
             voice_command = recognizer.recognize_bing(audio)
 
         print("Google Speech Recognition thinks you said " + voice_command)
+        '''
 
         if not voice_command.startswith(configuration.keyword):
             return

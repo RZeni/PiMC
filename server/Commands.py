@@ -9,7 +9,7 @@ import io
 import os
 import time
 import signal
-
+import subprocess
 from google.cloud import speech
 speech_client =       speech.Client()
 
@@ -34,13 +34,8 @@ def listen():
     #stop_listening = r.listen_in_background(m, processCommand)
 '''
 
-def record_voice_command(self):
-    cmd = "arecord --device=plughw:0,0 --format S16_LE --rate 44100 recording_audio.wav"
-    recording_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
-
-
 #def processCommand(recognizer, audio):
-def processCommand():
+def process_command():
     print("processing...")
     """
     The function to execute upon speech detection. Determines what was said and runs the appropriate function
@@ -51,19 +46,21 @@ def processCommand():
     try:
         voice_command = ""
         # The name of the audio file to transcribe
-        file_name = os.path.join(os.path.dirname(__file__), 'resources', 'recording_audio.wav')
-
+        file_name = os.path.join(os.path.dirname(__file__),'recording_audio.wav')
+        print('looking for file')
         # Loads the audio into memory
-        with io.open(file_name, 'rb') as audio_file:
+        with io.open('recording_audio.wav', 'rb') as audio_file:
             content = audio_file.read()
             sample = speech_client.sample(content, source_uri=None, encoding='LINEAR16')
 
+        print('got a sample')
         # Detects speech in the audio file
         alternatives = sample.recognize('en-US')
-
-        'resources',
-        'googletest.wav')
-
+        i = 0
+        for alternative in alternatives:
+            if i == 0:
+                voice_command = alternative.transcript.lower()
+            print('Transcript: {}'.format(alternative.transcript.lower()))
         '''
         if configuration.sr_service == SRServices.Shpynx.value:
             voice_command = recognizer.recognize_sphinx(audio)
@@ -102,31 +99,32 @@ def processCommand():
         #     return
 
         # searches for the audio to play using the selected service
-        elif voice_command.startswith("stop this"):
+        elif voice_command.startswith("stop this") or voice_command.startswith("pause song"):
             print("attempting to stop song...")
             musicService.stop_song()
             return
 
         # searches for the audio to play using the selected service
-        elif voice_command.startswith("pause this"):
+        elif voice_command.startswith("pause this") or voice_command.startswith("paws this") \
+            or voice_command.startswith("pause song") or voice_command.startswith("paws song"):
             print("attempting to pause song...")
             musicService.pause_song()
             return
 
         # searches for the audio to play using the selected service
-        elif voice_command.startswith("resume this"):
+        elif voice_command.startswith("resume this") or voice_command.startswith("resume song"):
             print("attempting to resume song...")
             musicService.resume_song()
             return
 
         # searches for the audio to play using the selected service
-        elif voice_command.startswith("rewind this"):
+        elif voice_command.startswith("rewind this") or voice_command.startswith("rewind song"):
             print("attempting to rewind song...")
             musicService.rewind_song()
             return
 
         # searches for the audio to play using the selected service
-        elif voice_command.startswith("fast forward this"):
+        elif voice_command.startswith("fast forward this") or voice_command.startswith("fast forward song"):
             print("attempting to fast forward song...")
             musicService.fastforward_song()
             return
@@ -166,7 +164,7 @@ def processCommand():
         print("Took too long to process audio")
     except NameError:
         print("A variable was not created, likely missing a default SR Service")
-    except sr.UnknownValueError:
-        print("Could not understand audio")
-    except sr.RequestError as e:
-        print("Could not request results from selected service; {0}".format(e))
+    #except sr.UnknownValueError:
+    #    print("Could not understand audio")
+    #except sr.RequestError as e:
+    #    print("Could not request results from selected service; {0}".format(e))
